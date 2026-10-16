@@ -1,55 +1,33 @@
-# Job Application Agent
+# Job application drafting tool
 
-A Streamlit web app that generates tailored cover letters and pre-fills application form answers using Claude AI. Upload your CV and documents, paste a job description URL, and get a professional cover letter in seconds.
+I built a Streamlit app to turn a CV, supporting documents and a job description into an editable application draft. It uses the Claude API to draft a cover letter and answers to job-specific questions, with DOCX and PDF export.
 
-## Features
+## What I implemented
 
-- **Profile management** — save your personal info once, reuse across applications
-- **Job description fetching** — automatically extracts title, company, requirements, and contact email from a URL
-- **AI cover letter generation** — Claude writes a tailored 4-paragraph cover letter based on your actual documents
-- **AI-generated form answers** — standard fields auto-filled from your profile, job-specific questions answered by Claude
-- **One-page optimized formatting** — cover letters fit on a single A4 page with professional layout
-- **Clickable mailto email link in DOCX header** — HR can click your email to open their mail client
-- **LinkedIn and GitHub hyperlinks in header** — clickable links in the generated DOCX
-- **Autocomplete disabled on address fields** — prevents browser autofill from overwriting your input
-- **DOCX and PDF export** — download your cover letter in either format
+The app stores reusable profile fields, parses uploaded documents and fetches a job description from a URL, with manual text entry as a fallback. It combines those inputs for drafting, then formats the letter and contact links for export.
 
-## Setup
+I kept review and editing in the workflow: the output is a draft to check against the source documents. Producing a document does not establish that its claims are supported or that the applicant meets the role's requirements. This repository contains the Streamlit tool; it does not document the later local Alfred workflow.
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/hakangulmez/job-application-agent.git
-   cd job-application-agent
-   ```
+## Run locally
 
-2. **Create a virtual environment and install dependencies**
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
-   ```
+Create a Python environment and install the requirements:
 
-3. **Add your API key**
-   ```bash
-   mkdir -p .streamlit
-   echo 'ANTHROPIC_API_KEY = "your-key-here"' > .streamlit/secrets.toml
-   ```
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
-4. **Run the app**
-   ```bash
-   streamlit run app.py
-   ```
+Add `ANTHROPIC_API_KEY` to `.streamlit/secrets.toml`, then start the app:
 
-## Usage
+```sh
+streamlit run app.py
+```
 
-1. **Fill your profile** — go to the "My Profile" tab and enter your details, then click Save Profile
-2. **Create an application** — go to "New Application", paste a job description URL (or paste the text manually), upload your CV and any supporting documents
-3. **Generate** — click "Generate Application" to get your cover letter and form answers. Edit the letter if needed, then download as DOCX or PDF
+Enter a profile, upload the relevant documents and provide the job description. Review the generated text before downloading it. Document text is used in API requests; running generation requires an Anthropic account and incurs its API charges.
 
-## Author
+The main components are in `app.py` and `utils/`: document parsing, job-description fetching, drafting, form answers and document export.
 
-Hakan Zeki Gulmez
+Original code: [MIT](LICENSE).
 
-## License
-
-MIT
+Hakan Zeki Gülmez · [GitHub](https://github.com/hakangulmez)
